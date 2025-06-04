@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NAMESPACE: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
-      SERVICE_LOCATION: '../PearlThoughtsAssessments'
+      SERVICE_LOCATION: './'
       SERVICE_NAME: webapp
       EC2_CREATE: 'false'
     steps:
@@ -29,7 +29,7 @@ jobs:
         run: |
           echo "IMAGE: $IMAGE & BRANCH_NAME : $BRANCH_NAME"
           echo "PWD : $PWD"
-          cd ${{ inputs.SERVICE_LOCATION }}
+          cd ${{ env.SERVICE_LOCATION }}
           echo "PWD : $PWD"
           ls
           docker build . --build-arg SOURCE=mosip --build-arg COMMIT_HASH=$(git rev-parse HEAD) --build-arg COMMIT_ID=$(git rev-parse --short HEAD) --build-arg BUILD_TIME=$BUILD_TIME --file Dockerfile --tag $IMAGE
@@ -50,4 +50,4 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull $IMAGE
-            docker service update --image $IMAGE yii2_yii2-app || docker stack deploy -c /home/ubuntu/yii2-app/docker-compose.yml yii2
+            docker service update --image $IMAGE webapp || docker stack deploy -c /home/ubuntu//docker-compose.yml webapp
