@@ -1,4 +1,4 @@
-name: Deploy Yii2 to EC2
+name: Deploy PHP to EC2
 
 on:
   push:
@@ -11,6 +11,7 @@ jobs:
       NAMESPACE: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
       SERVICE_LOCATION: ./
       SERVICE_NAME: webapp
+      EC2_CREATE: 'false'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,6 +20,7 @@ jobs:
         run: |
           echo "BUILD_TIME=$(date +'%Y-%m-%d-%H-%M-%S')"  >> $GITHUB_ENV
           echo "BRANCH_NAME=$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')" >> $GITHUB_ENV
+          echo "IMAGE=$NAMESPACE/$SERVICE_NAME:$BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Build check for Docker label
         run: |
@@ -36,24 +38,22 @@ jobs:
       - name: Build image
         run: |
           cd ${{ inputs.SERVICE_LOCATION }}
-          docker build . --build-arg SOURCE=mosip --build-arg COMMIT_HASH=$(git rev-parse HEAD) --build-arg COMMIT_ID=$(git rev-parse --short HEAD) --build-arg BUILD_TIME=$BUILD_TIME --file Dockerfile --tag $NAMESPACE/$SERVICE_NAME:$BRANCH_NAME
-
+          docker build . --build-arg SOURCE=mosip --build-arg COMMIT_HASH=$(git rev-parse HEAD) --build-arg COMMIT_ID=$(git rev-parse --short HEAD) --build-arg BUILD_TIME=$BUILD_TIME --file Dockerfile --tag $IMAGE
 
       - name: Log into registry
-        if: "${{ github.event_name != 'pull_request' }}"
         run: echo "${{secrets.RELEASE_DOCKER_HUB}}" | docker login -u ${{secrets.ACTOR_DOCKER_HUB}} --password-stdin
-
 
       - name: Push Image
         run: |
-          docker push IMAGE_ID=$NAMESPACE/$SERVICE_NAME:$BRANCH_NAME
+          docker push $IMAGE
 
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@v1.0.0
+        if: "${{ env.EC2_CREATE == 'true' }}"
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull $IMAGE_NAME:latest
-            docker service update --image $IMAGE_NAME:latest yii2_yii2-app || docker stack deploy -c /home/ubuntu/yii2-app/docker-compose.yml yii2
+            docker pull $IMAGE
+            docker service update --image $IMAGE yii2_yii2-app || docker stack deploy -c /home/ubuntu/yii2-app/docker-compose.yml yii2

@@ -26,12 +26,18 @@ terraform plan
 terraform apply
 ```
 
-
 Note down the public ip
 
 ## CI/CD with GitHub Actions
 
+* Set the below secrets in github actions secrets
+  ```
+  ACTOR_DOCKER_HUB              - dockerhub username
+  DEV_NAMESPACE_DOCKER_HUB      - dockerhub account id
+  RELEASE_DOCKER_HUB            - dockerhub user's login token / password
+  ```
 * Push the changes to github repository
 * it will create docker image and push to docker hub
+* 
 
 ## Infrastructure Automation with Ansible
