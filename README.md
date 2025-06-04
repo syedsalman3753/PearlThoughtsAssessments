@@ -53,7 +53,7 @@
 
 ## 4. Infrastructure Automation with Ansible
 
-* Update docker image in `docker-compose.yaml`.
+* Update docker image in `docker-compose.yaml` stored in root of repository.
 * Navigate to the Ansible directory:
   ```bash
   cd ansible

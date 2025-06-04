@@ -11,7 +11,7 @@ jobs:
       NAMESPACE: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
       SERVICE_LOCATION: './'
       SERVICE_NAME: webapp
-      EC2_CREATE: 'true'
+      EC2_CREATE: 'false'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
