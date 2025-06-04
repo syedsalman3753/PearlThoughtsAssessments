@@ -6,7 +6,7 @@
 * Ensure user has passwordless sudo access in console machine 
 
 ## clone the repository
-## Terraform to setup EC2 instance
+## Terraform to set up EC2 instance
 
 ```bash
 cd terraform
