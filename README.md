@@ -84,5 +84,3 @@
         EC2_CREATE: 'true'
   ```
   This allows the workflow to SSH into the EC2 instance and update the deployed Docker service with the latest images.
-
-
