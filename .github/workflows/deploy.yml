@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NAMESPACE: ${{ secrets.DEV_NAMESPACE_DOCKER_HUB }}
-      SERVICE_LOCATION: ./
+      SERVICE_LOCATION: './'
       SERVICE_NAME: webapp
       EC2_CREATE: 'false'
     steps:
