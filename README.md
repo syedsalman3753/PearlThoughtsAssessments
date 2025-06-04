@@ -39,9 +39,23 @@ Note down the public ip
 * Push the changes to github repository
 * it will create docker image and push to docker hub
 
-
 ## Infrastructure Automation with Ansible
 
 * Update the hosts name, username, pem key in hosts.ini file
 * 
-## 
+## Update deploy.yml github actions
+```
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      ...
+      ...
+      EC2_CREATE: 'true'
+```
+
+```
+EC2_HOST
+EC2_SSH_KEY
+EC2_USER
+```
