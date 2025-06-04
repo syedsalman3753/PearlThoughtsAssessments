@@ -50,4 +50,4 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull ${{ env.IMAGE }}
-            docker stack deploy -c ~/docker-compose/docker-compose.yml webapp
+            docker stack deploy -c ~/docker-compose/docker-compose.yaml webapp
