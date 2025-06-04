@@ -1,4 +1,4 @@
-# PearlThoughtsAssesments
+# PearlThoughtsAssessments
 
 ## Prerequisites
 - An AWS account with programmatic access (Access Key ID and Secret Access Key)
@@ -41,9 +41,9 @@
 
 * Configure the following GitHub Secrets under your repository settings:
 * | Secret Name                | Description                                  |
-  | -------------------------- | -------------------------------------------- |
+  | -------------------------- |----------------------------------------------|
   | `ACTOR_DOCKER_HUB`         | Docker Hub username                          |
-  | `DEV_NAMESPACE_DOCKER_HUB` | Docker Hub account namespace                 |
+  | `DEV_NAMESPACE_DOCKER_HUB` | Docker Hub account name                      |
   | `RELEASE_DOCKER_HUB`       | Docker Hub access token or password          |
   | `EC2_HOST`                 | Public IP of the provisioned EC2 instance    |
   | `EC2_SSH_KEY`              | Contents of the EC2 .pem private key         |
@@ -53,6 +53,7 @@
 
 ## 4. Infrastructure Automation with Ansible
 
+* Update docker image in `docker-compose.yaml`.
 * Navigate to the Ansible directory:
   ```bash
   cd ansible
