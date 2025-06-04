@@ -20,18 +20,22 @@
 
       - name: Download Docker GPG key
         get_url:
-            url: https://download.docker.com/linux/debian/gpg
+            url: https://download.docker.com/linux/ubuntu/gpg
             dest: /etc/apt/keyrings/docker.asc
             mode: '0644'
 
-      - name: Add Docker APT repository
+      - name: Set up the Docker repository
         shell: |
-            echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            sudo apt-get update
 
       - name: Install Docker and Docker Compose
         apt:
             name:
-            - docker-*
+                - docker-ce
+                - docker-ce-cli
+                - containerd.io
+                - docker-compose-plugin
             state: present
 
       - name: Add user to docker group
