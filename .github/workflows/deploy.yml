@@ -30,6 +30,8 @@ jobs:
           echo "IMAGE: $IMAGE & BRANCH_NAME : $BRANCH_NAME"
           echo "PWD : $PWD"
           cd ${{ inputs.SERVICE_LOCATION }}
+          echo "PWD : $PWD"
+          ls
           docker build . --build-arg SOURCE=mosip --build-arg COMMIT_HASH=$(git rev-parse HEAD) --build-arg COMMIT_ID=$(git rev-parse --short HEAD) --build-arg BUILD_TIME=$BUILD_TIME --file Dockerfile --tag $IMAGE
 
       - name: Log into registry
